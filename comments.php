@@ -82,7 +82,7 @@ function threadedComments($comments, $options) {
 <li id="li-<?php $comments->theId(); ?>" class="cmt-item<?php echo $isAdmin ? ' cmt-is-admin' : ''; ?><?php echo $comments->levels > 0 ? ' cmt-is-child' : ''; ?>">
     <div class="cmt-card" id="<?php $comments->theId(); ?>">
         <div class="cmt-avatar-col">
-            <img class="cmt-avatar" src="https://cravatar.cn/avatar/<?php echo $hash; ?>?s=80&d=mp" alt="" loading="lazy">
+            <img class="cmt-avatar" src="https://weavatar.com/avatar/<?php echo $hash; ?>?s=80&d=mp" alt="" loading="lazy">
         </div>
         <div class="cmt-body">
             <div class="cmt-header">

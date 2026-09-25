@@ -50,7 +50,7 @@ $this->need('header.php');
                                 ?>
                                 <div class="pg-lb-item">
                                     <span class="pg-lb-rank pg-lb-rank-<?php echo min($i + 1, 3); ?>"><?php echo $i + 1; ?></span>
-                                    <img class="pg-lb-avatar" src="https://cravatar.cn/avatar/<?php echo $hash; ?>?s=48&d=mp" alt="" loading="lazy" onerror="this.style.display='none'">
+                                    <img class="pg-lb-avatar" src="https://weavatar.com/avatar/<?php echo $hash; ?>?s=48&d=mp" alt="" loading="lazy" onerror="this.style.display='none'">
                                     <span class="pg-lb-name"><?php echo htmlspecialchars($author); ?></span>
                                     <span class="pg-lb-count"><?php echo $cnt; ?> 条</span>
                                 </div>

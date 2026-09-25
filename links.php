@@ -74,7 +74,7 @@ function _renderLinkCard($link) {
     $desc  = $link['description'] ?? '';
     $email = $link['email'] ?? '';
     if (empty($img) && !empty($email))
-        $img = 'https://cravatar.cn/avatar/' . md5(strtolower(trim($email))) . '?s=80&d=mp';
+        $img = 'https://weavatar.com/avatar/' . md5(strtolower(trim($email))) . '?s=80&d=mp';
     ?>
     <a href="<?php echo htmlspecialchars($url); ?>" target="_blank" rel="noopener noreferrer" class="link-card" data-url="<?php echo htmlspecialchars($url); ?>">
         <div class="link-avatar">
