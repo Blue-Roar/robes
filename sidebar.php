@@ -22,6 +22,7 @@ if (!defined('__TYPECHO_ROOT_DIR__')) exit;
             $iconMap = array(
                 '关于' => 'fa-user', 'about' => 'fa-user',
                 '友链' => 'fa-link', '友情链接' => 'fa-link', 'link' => 'fa-link', 'links' => 'fa-link',
+                '导航' => 'fa-location-arrow', 'navigation' => 'fa-location-arrow',
                 '留言' => 'fa-envelope', '留言板' => 'fa-envelope', 'guestbook' => 'fa-envelope',
                 '相册' => 'fa-images', 'photo' => 'fa-images', 'gallery' => 'fa-images',
                 '归档' => 'fa-box-archive', 'archive' => 'fa-box-archive',
