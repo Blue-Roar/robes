@@ -943,19 +943,84 @@ function _fallbackCheck(pending) {
   });
 }
 
+// ── Mermaid 重新渲染（PJAX + ESM 兼容） ──
+function renderMermaid() {
+    // 页面上没有 Mermaid 相关内容，直接跳过
+    var hasMermaid = document.querySelector('.mermaid, .article-content pre code.language-mermaid, .article-content pre code.mermaid');
+    if (!hasMermaid) return;
+
+    // 移除上一次 PJAX 插入的渲染脚本，避免堆积
+    var oldScript = document.getElementById('mermaid-pjax-renderer');
+    if (oldScript) oldScript.remove();
+
+    // 动态插入 ESM 模块脚本，让 Mermaid 自行扫描并渲染
+    var script = document.createElement('script');
+    script.id = 'mermaid-pjax-renderer';
+    script.type = 'module';
+    script.textContent = `
+        import mermaid from 'https://cdn.bootcdn.net/ajax/libs/mermaid/10.9.1/mermaid.esm.min.mjs';
+
+        mermaid.initialize({ startOnLoad: false, theme: 'dark' });
+
+        // 1. 转换还没处理的 pre code
+        document.querySelectorAll('.article-content pre code.language-mermaid, .article-content pre code.mermaid').forEach(function (code) {
+            var pre = code.parentElement;
+            if (pre && pre.tagName === 'PRE' && pre.dataset.mermaidDone !== '1') {
+                pre.dataset.mermaidDone = '1';
+                var div = document.createElement('div');
+                div.className = 'mermaid';
+                div.textContent = code.textContent.trim();
+                pre.replaceWith(div);
+            }
+        });
+
+        // 2. 只渲染没有 svg 的 .mermaid 元素
+        var blocks = Array.from(document.querySelectorAll('.mermaid')).filter(function (el) {
+            return !el.querySelector('svg');
+        });
+
+        if (blocks.length) {
+            try {
+                await mermaid.run({ nodes: blocks });
+            } catch (e) {
+                console.error('Mermaid render error:', e);
+            }
+        }
+    `;
+    document.body.appendChild(script);
+}
+
 // ── 代码高亮 ──
 function initCodeHighlight() {
     var pres = document.querySelectorAll('.article-content pre code:not(.hljs)');
     if (!pres.length) return;
+
+    // 过滤掉 Mermaid 代码块：类名排除 + 文本内容兜底
+    var toHl = [];
+    pres.forEach(function (block) {
+        // 1) 类名排除
+        if (block.classList.contains('mermaid') || block.classList.contains('language-mermaid')) return;
+
+        // 2) 文本内容兜底（Mermaid 图类型关键字）
+        var t = block.textContent.trim();
+        if (/^(graph|flowchart|sequenceDiagram|classDiagram|stateDiagram|erDiagram|gantt|pie|gitGraph|mindmap|timeline|journey|quadrantChart|requirementDiagram|C4Context|sankey-beta|xychart-beta|block-beta|packet-beta|architecture-beta)\b/i.test(t)) {
+            return;
+        }
+
+        toHl.push(block);
+    });
+
+    if (!toHl.length) return;
+
     if (typeof hljs === 'undefined') {
         var script = document.createElement('script');
         script.src = 'https://cdn.bootcdn.net/ajax/libs/highlight.js/11.9.0/highlight.min.js';
-        script.onload = function() {
-            pres.forEach(function(block) { hljs.highlightElement(block); });
+        script.onload = function () {
+            toHl.forEach(function (block) { hljs.highlightElement(block); });
         };
         document.head.appendChild(script);
     } else {
-        pres.forEach(function(block) { hljs.highlightElement(block); });
+        toHl.forEach(function (block) { hljs.highlightElement(block); });
     }
 }
 
@@ -1028,7 +1093,7 @@ function syncEditBtn() {
 }
 
 function rebindAll() {
-    initTheme(); initSectionToggle(); initHitokoto(); bindLike(); bindIndexLike(); bindSidebarAutoClose(); bindSortTabs(); bindCommentForm(); bindArchiveTabs(); bindLightbox(); initCodeCopy(); initCodeHighlight(); initTableWrap(); initSearchHighlight(); initLinkCheck(); initWaterfall(); initTOC(); initLazyLoad(); initImgLoading(); bindLinksTabs(); syncEditBtn(); initScrollAutoHide();
+    initTheme(); initSectionToggle(); initHitokoto(); bindLike(); bindIndexLike(); bindSidebarAutoClose(); bindSortTabs(); bindCommentForm(); bindArchiveTabs(); bindLightbox(); initCodeCopy(); initCodeHighlight(); initTableWrap(); initSearchHighlight(); initLinkCheck(); initWaterfall(); initTOC(); initLazyLoad(); initImgLoading(); bindLinksTabs(); syncEditBtn(); initScrollAutoHide(); renderMermaid();
     var tagsEl = document.getElementById('articleTags');
     if (tagsEl && !tagsEl.querySelector('a')) tagsEl.style.display = 'none';
     var se = document.getElementById('feed');
@@ -1054,7 +1119,7 @@ function rebindAll() {
     var sidebarCloseBtn = document.getElementById('sidebarCloseBtn');
     if (sidebarCloseBtn) sidebarCloseBtn.addEventListener('click', closeSidebar);
 
-    bindSidebarAutoClose(); bindSortTabs(); bindCommentForm(); bindArchiveTabs(); bindIndexLike(); bindLightbox(); initCodeCopy(); initCodeHighlight(); initTableWrap(); initLinkCheck(); initWaterfall(); initTOC(); bindLinksTabs(); syncEditBtn(); initImgLoading(); initScrollAutoHide();
+    bindSidebarAutoClose(); bindSortTabs(); bindCommentForm(); bindArchiveTabs(); bindIndexLike(); bindLightbox(); initCodeCopy(); initCodeHighlight(); initTableWrap(); initLinkCheck(); initWaterfall(); initTOC(); bindLinksTabs(); syncEditBtn(); initImgLoading(); initScrollAutoHide(); renderMermaid();
     initTheme(); initSectionToggle(); initHitokoto();
     var tagsEl = document.getElementById('articleTags');
     if (tagsEl && !tagsEl.querySelector('a')) tagsEl.style.display = 'none';

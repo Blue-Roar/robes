@@ -1350,18 +1350,31 @@ html.dark .friend-feed-card:hover { box-shadow: var(--shadow-md); border-color: 
   padding: 0; margin: 16px 0;
   overflow: hidden;
   border: 1px solid var(--glass-border);
+  position: relative;
 }
+/* 窗口栏背景 + 底边框 */
 .article-content pre::before {
-  content: ''; display: block;
+  content: '';
+  display: block;
   height: 38px;
-  background: rgba(0,0,0,0.03);
+  background: rgba(0, 0, 0, 0.03);
   border-bottom: 1px solid var(--glass-border);
-  background-image: radial-gradient(circle, #ef4444 5px, transparent 5px),
-                    radial-gradient(circle, #eab308 5px, transparent 5px),
-                    radial-gradient(circle, #22c55e 5px, transparent 5px);
-  background-size: 12px 12px;
-  background-position: 16px center, 32px center, 48px center;
-  background-repeat: no-repeat;
+}
+
+/* 三个信号灯圆点 */
+.article-content pre::after {
+  content: '';
+  position: absolute;
+  top: 13px;
+  left: 16px;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: #ef4444;
+  box-shadow:
+    16px 0 0 #eab308,
+    32px 0 0 #22c55e;
+  z-index: 1;
 }
 html.dark .article-content pre::before {
   background-color: rgba(255,255,255,0.04);
@@ -2953,6 +2966,9 @@ html.dark .error-recommend-title {
 }
 html.dark .article-content pre code.hljs {
   background: transparent;
+}
+.mermaid + .code-copy-btn {
+  display: none;
 }
 
 /* ══════════════════════════════════════
