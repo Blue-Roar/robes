@@ -1,0 +1,737 @@
+<style>
+#robes-config-wrapper {
+    position: relative;
+    width: 100%;
+    background: #f5f5f5;
+    border-radius: 12px;
+    border: 1px solid #e0e0e0;
+    padding: 24px;
+}
+
+#robes-config-wrapper * {
+    box-sizing: border-box;
+}
+
+#robes-config-wrapper .robes-header {
+    display: flex;
+    align-items: center;
+    padding: 20px 0;
+    border-bottom: 1px solid #e2e8f0;
+    margin-bottom: 20px;
+}
+
+#robes-config-wrapper .robes-header h2 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 600;
+    color: #1e293b;
+}
+#robes-config-wrapper .robes-header-actions {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+#robes-config-wrapper .robes-tabs {
+    display: flex;
+    gap: 0;
+    border-bottom: 1px solid #e2e8f0;
+    margin-bottom: 20px;
+}
+
+#robes-config-wrapper .robes-tab {
+    padding: 12px 20px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #64748b;
+    background: none;
+    border: none;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+}
+
+#robes-config-wrapper .robes-tab:hover { color: #94c8d8; }
+#robes-config-wrapper .robes-tab.active {
+    color: #94c8d8;
+    border-bottom-color: #94c8d8;
+}
+
+#robes-config-wrapper .robes-body {
+    padding-bottom: 30px;
+}
+
+#robes-config-wrapper .robes-panel { display: none; }
+#robes-config-wrapper .robes-panel.active { display: block; }
+
+#robes-config-wrapper .robes-option {
+    display: flex;
+    padding: 14px 0;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+#robes-config-wrapper .robes-option:last-child {
+    border-bottom: none;
+}
+
+#robes-config-wrapper .robes-option-label {
+    width: 120px;
+    flex-shrink: 0;
+    padding-top: 6px;
+    font-weight: 500;
+    color: #334155;
+    font-size: 14px;
+}
+
+#robes-config-wrapper .robes-option-content {
+    flex: 1;
+}
+
+#robes-config-wrapper .robes-option-desc {
+    font-size: 12px;
+    color: #94a3b8;
+    margin-bottom: 6px;
+}
+
+#robes-config-wrapper .robes-input,
+#robes-config-wrapper .robes-select {
+    width: 100%;
+    max-width: 360px;
+    padding: 7px 10px;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    font-size: 14px;
+    background: #fff;
+    color: #334155;
+    font-family: inherit;
+}
+
+#robes-config-wrapper .robes-input:focus,
+#robes-config-wrapper .robes-select:focus {
+    outline: none;
+    border-color: #94c8d8;
+}
+
+#robes-config-wrapper .robes-select {
+    min-height: 32px;
+    max-width: 200px !important;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+    padding-right: 30px;
+}
+
+#robes-config-wrapper .robes-color-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+#robes-config-wrapper .robes-color-picker {
+    width: 40px;
+    height: 32px;
+    border: 2px solid #e2e8f0;
+    border-radius: 6px;
+    cursor: pointer;
+    padding: 0;
+}
+
+#robes-config-wrapper .robes-color-hex {
+    max-width: 120px !important;
+}
+
+#robes-config-wrapper .robes-color-presets {
+    display: flex;
+    gap: 6px;
+    margin-top: 8px;
+}
+
+#robes-config-wrapper .robes-color-preset {
+    width: 22px;
+    height: 22px;
+    border-radius: 4px;
+    cursor: pointer;
+    border: 2px solid transparent;
+}
+
+#robes-config-wrapper .robes-color-preset:hover { transform: scale(1.1); }
+#robes-config-wrapper .robes-color-preset.active { border-color: #94c8d8; }
+
+#robes-config-wrapper .robes-slider-row {
+    max-width: 360px;
+}
+
+#robes-config-wrapper .robes-slider {
+    width: 100%;
+    height: 5px;
+    -webkit-appearance: none;
+    appearance: none;
+    background: #e2e8f0;
+    border-radius: 3px;
+}
+
+#robes-config-wrapper .robes-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #94c8d8;
+    cursor: pointer;
+}
+
+#robes-config-wrapper .robes-slider-value {
+    font-size: 12px;
+    color: #94c8d8;
+    font-weight: 500;
+    margin-top: 4px;
+}
+
+#robes-config-wrapper .robes-toggle {
+    position: relative;
+    width: 40px;
+    height: 22px;
+    appearance: none;
+    background: #e2e8f0;
+    border-radius: 11px;
+    cursor: pointer;
+    outline: none;
+}
+
+#robes-config-wrapper .robes-toggle::after {
+    content: "";
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 18px;
+    height: 18px;
+    background: #fff;
+    border-radius: 50%;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    transition: transform 0.25s;
+}
+
+#robes-config-wrapper .robes-toggle:checked { background: #94c8d8; }
+#robes-config-wrapper .robes-toggle:checked::after { transform: translateX(18px); }
+
+#robes-config-wrapper .robes-pills {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+#robes-config-wrapper .robes-pill {
+    padding: 6px 16px;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 50px;
+    background: #fff;
+    color: #64748b;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s;
+    user-select: none;
+}
+#robes-config-wrapper .robes-pill:hover {
+    border-color: #94c8d8;
+    color: #94c8d8;
+}
+#robes-config-wrapper .robes-pill.active {
+    background: #94c8d8;
+    border-color: #94c8d8;
+    color: #fff;
+    font-weight: 500;
+    box-shadow: 0 2px 8px rgba(148,200,216,0.25);
+}
+
+#robes-config-wrapper .robes-toggle-label {
+    font-size: 12px;
+    color: #94a3b8;
+    margin-left: 8px;
+}
+
+#robes-config-wrapper .robes-textarea {
+    width: 100%;
+    min-height: 100px;
+    padding: 8px 10px;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    font-size: 13px;
+    font-family: monospace;
+    resize: vertical;
+    background: #fff;
+}
+
+#robes-config-wrapper .robes-textarea:focus {
+    outline: none;
+    border-color: #94c8d8;
+}
+
+#robes-config-wrapper .robes-footer {
+    text-align: center;
+    padding-top: 10px;
+    border-top: 1px solid #e2e8f0;
+}
+
+#robes-config-wrapper .robes-btn {
+    background: #94c8d8;
+    color: #fff;
+    border: none;
+    padding: 8px 28px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+#robes-config-wrapper .robes-btn:hover {
+    background: #7ab8cc;
+}
+
+#robes-config-wrapper .robes-btn-outline {
+    background: #fff;
+    color: #64748b;
+    border: 1.5px solid #e2e8f0;
+    padding: 7px 18px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+#robes-config-wrapper .robes-btn-outline:hover {
+    border-color: #94c8d8;
+    color: #94c8d8;
+}
+#robes-config-wrapper #robes-import-file {
+    display: none;
+}
+</style>
+
+<div id="robes-config-wrapper">
+    <div class="robes-header">
+        <h2>主题设置</h2>
+        <div class="robes-header-actions">
+            <input type="file" id="robes-import-file" accept=".json">
+            <button class="robes-btn-outline" id="robes-export" title="导出当前所有设置为JSON文件"><i class="fa-solid fa-download"></i> 导出备份</button>
+            <button class="robes-btn-outline" id="robes-import" title="从JSON文件恢复设置"><i class="fa-solid fa-upload"></i> 恢复备份</button>
+        </div>
+    </div>
+    <div class="robes-tabs">
+        <button class="robes-tab active" data-panel="basic">基本设置</button>
+        <button class="robes-tab" data-panel="style">外观样式</button>
+        <button class="robes-tab" data-panel="layout">布局导航</button>
+        <button class="robes-tab" data-panel="feature">功能开关</button>
+        <button class="robes-tab" data-panel="social">社交链接</button>
+        <button class="robes-tab" data-panel="custom">自定义</button>
+    </div>
+    <div class="robes-body">
+        <div class="robes-panel active" id="robes-panel-basic"></div>
+        <div class="robes-panel" id="robes-panel-style"></div>
+        <div class="robes-panel" id="robes-panel-layout"></div>
+        <div class="robes-panel" id="robes-panel-feature"></div>
+        <div class="robes-panel" id="robes-panel-social"></div>
+        <div class="robes-panel" id="robes-panel-custom"></div>
+    </div>
+    <div class="robes-footer">
+        <button class="robes-btn" id="robes-submit">保存设置</button>
+    </div>
+</div>
+
+<script>
+function initRobesConfig() {
+    var groups = {
+        basic: ["blogName", "logoImage", "faviconUrl", "siteStartDate", "footerText", "icpText", "ogImage", "postAvatar"],
+        style: ["cardStyle", "darkMode", "accentColor", "bgColor", "orbColor", "orbSize", "bgSvgLight", "glassBlur", "glassOpacity", "borderRadius"],
+        layout: ["topbarHeight", "sidebarWidth", "showSidebarCategories", "showSidebarTags", "enablePostNav"],
+        feature: ["enablePJAX", "enableLightbox", "enableTOC", "enableHitokoto", "enableSortTabs", "showImageCount", "galleryCategoryId", "stickyPostIds", "showLinksCategory", "enableLinkCheck"],
+        social: ["socialGithub", "socialBilibili", "socialTwitter", "socialTelegram", "socialWeibo", "socialWechat", "socialEmail", "socialRss"],
+        custom: ["customCSS", "customJS"]
+    };
+
+    var optionLabels = {
+        blogName: "博客名称",
+        logoImage: "Logo图片",
+        footerText: "底部版权",
+        icpText: "备案信息",
+        faviconUrl: "Favicon",
+        ogImage: "默认分享图",
+        siteStartDate: "建站日期",
+        accentColor: "强调色",
+        bgColor: "背景色",
+        glassBlur: "模糊度",
+        glassOpacity: "透明度",
+        sidebarWidth: "侧边栏宽度",
+        cardStyle: "卡片风格",
+        borderRadius: "圆角大小",
+        topbarHeight: "顶栏高度",
+        enablePJAX: "PJAX无刷新",
+        enableLightbox: "图片灯箱",
+        showImageCount: "首页图片数量",
+        galleryCategoryId: "相册分类ID",
+        stickyPostIds: "置顶文章ID",
+        enableHitokoto: "首页一言",
+        enableSortTabs: "排序切换",
+        enableTOC: "文章目录",
+        darkMode: "深色模式",
+        showSidebarCategories: "侧边栏分类",
+        showSidebarTags: "侧边栏标签",
+        postAvatar: "文章页头像",
+        enablePostNav: "上下篇导航",
+        socialGithub: "GitHub",
+        socialTwitter: "Twitter/X",
+        socialWeibo: "微博",
+        socialWechat: "微信",
+        socialBilibili: "Bilibili",
+        socialTelegram: "Telegram",
+        socialEmail: "邮箱",
+        socialRss: "RSS",
+        customCSS: "自定义CSS",
+        customJS: "自定义JS",
+        bgSvgLight: "背景SVG",
+        orbColor: "光晕颜色",
+        orbSize: "光晕大小",
+        showLinksCategory: "友链分类",
+        enableLinkCheck: "友链检测"
+    };
+
+    var optionDescs = {
+        blogName: "显示在顶栏左侧",
+        logoImage: "填写图片URL，留空显示首字",
+        footerText: "网站底部版权信息",
+        icpText: "如：粤ICP备12345678号",
+        faviconUrl: "填写图标URL，留空使用默认",
+        ogImage: "无文章图片时使用的默认缩略图URL",
+        siteStartDate: "格式：2024-01-01，运行时间自动计算",
+        accentColor: "网站的主要强调颜色",
+        bgColor: "网站的背景颜色",
+        glassBlur: "毛玻璃效果的模糊程度",
+        glassOpacity: "毛玻璃效果的透明度",
+        sidebarWidth: "侧边栏的宽度，单位px",
+        cardStyle: "文章卡片的显示风格",
+        borderRadius: "small=小圆角, medium=中圆角, large=大圆角",
+        topbarHeight: "compact=紧凑, standard=标准, loose=宽松",
+        enablePJAX: "启用PJAX无刷新页面切换",
+        enableLightbox: "点击图片时显示灯箱效果",
+        showImageCount: "首页展示的图片数量",
+        galleryCategoryId: "相册页面使用的分类ID",
+        stickyPostIds: "置顶文章ID，多个用逗号分隔",
+        enableHitokoto: "在首页显示一言语录",
+        enableSortTabs: "在首页显示排序切换按钮",
+        enableTOC: "在文章页面显示目录导航",
+        darkMode: "auto=跟随系统偏好, light=默认浅色, dark=默认深色, switch=允许用户手动切换",
+        showSidebarCategories: "是否在侧边栏显示分类列表",
+        showSidebarTags: "是否在侧边栏显示标签云",
+        postAvatar: "文章详情页头像URL，留空使用Logo图片",
+        enablePostNav: "文章底部的上一篇/下一篇导航",
+        socialGithub: "填写用户名或完整链接",
+        socialTwitter: "填写用户名或完整链接",
+        socialWeibo: "填写微博主页链接",
+        socialWechat: "填写微信号",
+        socialBilibili: "填写UID或主页链接",
+        socialTelegram: "填写Telegram用户名",
+        socialEmail: "填写邮箱地址",
+        socialRss: "留空使用默认RSS地址",
+        customCSS: "自定义CSS样式代码",
+        customJS: "自定义JavaScript代码",
+        bgSvgLight: "粘贴SVG代码或CSS渐变，留空使用默认云朵背景",
+        orbColor: "如 #8B9CF7，三个光晕统一颜色，留空使用默认",
+        orbSize: "单位px，默认400，建议200-600",
+        showLinksCategory: "是否在友链页面显示分类筛选标签",
+        enableLinkCheck: "检测友情链接的在线状态，关闭后不再发起请求"
+    };
+
+    var form = document.querySelector("form");
+    var wrapper = document.getElementById("robes-config-wrapper");
+    
+    if (!form || !wrapper) return;
+
+    var children = form.children;
+    for (var i = 0; i < children.length; i++) {
+        var child = children[i];
+        if (child !== wrapper) {
+            child.style.display = "none";
+        }
+    }
+
+    var hiddenContainer = document.createElement("div");
+    hiddenContainer.style.display = "none";
+    form.appendChild(hiddenContainer);
+
+    for (var groupName in groups) {
+        var panel = document.getElementById("robes-panel-" + groupName);
+        var fields = groups[groupName];
+
+        fields.forEach(function(fieldName) {
+            var originalInput = form.querySelector('input[name="' + fieldName + '"], select[name="' + fieldName + '"], textarea[name="' + fieldName + '"]');
+            if (!originalInput) return;
+
+            originalInput.parentNode.removeChild(originalInput);
+            hiddenContainer.appendChild(originalInput);
+
+            var optionDiv = document.createElement("div");
+            optionDiv.className = "robes-option";
+
+            var labelDiv = document.createElement("div");
+            labelDiv.className = "robes-option-label";
+            labelDiv.textContent = optionLabels[fieldName] || fieldName;
+
+            var contentDiv = document.createElement("div");
+            contentDiv.className = "robes-option-content";
+
+            var descDiv = document.createElement("div");
+            descDiv.className = "robes-option-desc";
+            descDiv.textContent = optionDescs[fieldName] || "";
+            contentDiv.appendChild(descDiv);
+
+            if (fieldName === "accentColor" || fieldName === "bgColor" || fieldName === "orbColor") {
+                var colorRow = document.createElement("div");
+                colorRow.className = "robes-color-row";
+                
+                var picker = document.createElement("input");
+                picker.type = "color";
+                picker.className = "robes-color-picker";
+                picker.value = originalInput.value || "#94c8d8";
+                
+                var hexInput = document.createElement("input");
+                hexInput.type = "text";
+                hexInput.className = "robes-color-hex";
+                hexInput.value = originalInput.value || "#94c8d8";
+                
+                picker.addEventListener("input", function() {
+                    hexInput.value = this.value;
+                    originalInput.value = this.value;
+                });
+                
+                hexInput.addEventListener("input", function() {
+                    picker.value = this.value;
+                    originalInput.value = this.value;
+                });
+
+                colorRow.appendChild(picker);
+                colorRow.appendChild(hexInput);
+                contentDiv.appendChild(colorRow);
+
+            } else if (fieldName === "glassBlur") {
+                var newInput = document.createElement("input");
+                newInput.type = "text";
+                newInput.className = "robes-input";
+                newInput.value = originalInput.value || "20px";
+                newInput.addEventListener("input", function() {
+                    originalInput.value = this.value;
+                });
+                contentDiv.appendChild(newInput);
+                
+                var sliderRow = document.createElement("div");
+                sliderRow.className = "robes-slider-row";
+                var slider = document.createElement("input");
+                slider.type = "range";
+                slider.className = "robes-slider";
+                slider.min = "0";
+                slider.max = "20";
+                slider.value = parseInt(originalInput.value) || 20;
+                var valueSpan = document.createElement("div");
+                valueSpan.className = "robes-slider-value";
+                valueSpan.textContent = slider.value + "px";
+                
+                slider.addEventListener("input", function() {
+                    newInput.value = this.value + "px";
+                    originalInput.value = this.value + "px";
+                    valueSpan.textContent = this.value + "px";
+                });
+                
+                sliderRow.appendChild(slider);
+                sliderRow.appendChild(valueSpan);
+                contentDiv.appendChild(sliderRow);
+
+            } else if (fieldName === "glassOpacity") {
+                var newInput = document.createElement("input");
+                newInput.type = "text";
+                newInput.className = "robes-input";
+                newInput.value = originalInput.value || "0.45";
+                newInput.addEventListener("input", function() {
+                    originalInput.value = this.value;
+                });
+                contentDiv.appendChild(newInput);
+                
+                var sliderRow = document.createElement("div");
+                sliderRow.className = "robes-slider-row";
+                var slider = document.createElement("input");
+                slider.type = "range";
+                slider.className = "robes-slider";
+                slider.min = "0";
+                slider.max = "1";
+                slider.step = "0.05";
+                slider.value = originalInput.value || 0.45;
+                var valueSpan = document.createElement("div");
+                valueSpan.className = "robes-slider-value";
+                valueSpan.textContent = parseFloat(slider.value).toFixed(2);
+                
+                slider.addEventListener("input", function() {
+                    newInput.value = this.value;
+                    originalInput.value = this.value;
+                    valueSpan.textContent = parseFloat(this.value).toFixed(2);
+                });
+                
+                sliderRow.appendChild(slider);
+                sliderRow.appendChild(valueSpan);
+                contentDiv.appendChild(sliderRow);
+
+            } else if (fieldName === "enablePJAX" || fieldName === "enableLightbox" || fieldName === "enableHitokoto" || fieldName === "enableSortTabs" || fieldName === "enableTOC" || fieldName === "showSidebarCategories" || fieldName === "showSidebarTags" || fieldName === "enablePostNav" || fieldName === "showLinksCategory" || fieldName === "enableLinkCheck") {
+                var toggleRow = document.createElement("div");
+                toggleRow.style.display = "flex";
+                toggleRow.style.alignItems = "center";
+                
+                var toggle = document.createElement("input");
+                toggle.type = "checkbox";
+                toggle.className = "robes-toggle";
+                toggle.checked = originalInput.value === "1";
+                
+                var toggleLabel = document.createElement("span");
+                toggleLabel.className = "robes-toggle-label";
+                toggleLabel.textContent = toggle.checked ? "开启" : "关闭";
+                
+                toggle.addEventListener("change", function() {
+                    originalInput.value = this.checked ? "1" : "0";
+                    toggleLabel.textContent = this.checked ? "开启" : "关闭";
+                });
+                
+                toggleRow.appendChild(toggle);
+                toggleRow.appendChild(toggleLabel);
+                contentDiv.appendChild(toggleRow);
+
+            } else if (originalInput.tagName === "SELECT") {
+                var pillWrap = document.createElement("div");
+                pillWrap.className = "robes-pills";
+
+                var options = originalInput.querySelectorAll("option");
+                options.forEach(function(opt) {
+                    var pill = document.createElement("span");
+                    pill.className = "robes-pill";
+                    if (opt.value === originalInput.value) pill.classList.add("active");
+                    pill.textContent = opt.textContent;
+                    pill.dataset.value = opt.value;
+                    pill.addEventListener("click", function() {
+                        pillWrap.querySelectorAll(".robes-pill").forEach(function(p) { p.classList.remove("active"); });
+                        pill.classList.add("active");
+                        originalInput.value = pill.dataset.value;
+                    });
+                    pillWrap.appendChild(pill);
+                });
+                contentDiv.appendChild(pillWrap);
+
+            } else if (fieldName === "customCSS" || fieldName === "customJS" || fieldName === "bgSvgLight") {
+                var newTextarea = document.createElement("textarea");
+                newTextarea.className = "robes-textarea";
+                newTextarea.value = originalInput.value || "";
+                newTextarea.addEventListener("input", function() {
+                    originalInput.value = this.value;
+                });
+                contentDiv.appendChild(newTextarea);
+
+            } else {
+                var newInput = document.createElement("input");
+                newInput.type = "text";
+                newInput.className = "robes-input";
+                newInput.value = originalInput.value || "";
+                newInput.addEventListener("input", function() {
+                    originalInput.value = this.value;
+                });
+                contentDiv.appendChild(newInput);
+            }
+
+            optionDiv.appendChild(labelDiv);
+            optionDiv.appendChild(contentDiv);
+            panel.appendChild(optionDiv);
+        });
+    }
+
+    document.querySelectorAll(".robes-tab").forEach(function(tab) {
+        tab.addEventListener("click", function() {
+            document.querySelectorAll(".robes-tab").forEach(function(t) { t.classList.remove("active"); });
+            document.querySelectorAll(".robes-panel").forEach(function(p) { p.classList.remove("active"); });
+            
+            this.classList.add("active");
+            var panelId = "robes-panel-" + this.dataset.panel;
+            document.getElementById(panelId).classList.add("active");
+        });
+    });
+
+    var submitBtn = document.getElementById("robes-submit");
+    submitBtn.addEventListener("click", function() {
+        form.submit();
+    });
+
+    /* ── 备份导出 ── */
+    document.getElementById("robes-export").addEventListener("click", function() {
+        var data = {};
+        var inputs = form.querySelectorAll("input[name], select[name], textarea[name]");
+        inputs.forEach(function(el) {
+            if (el.type === "file") return;
+            if (el.type === "checkbox") {
+                data[el.name] = el.checked ? "1" : "0";
+            } else {
+                data[el.name] = el.value;
+            }
+        });
+        var json = JSON.stringify(data, null, 2);
+        var blob = new Blob([json], { type: "application/json" });
+        var url = URL.createObjectURL(blob);
+        var a = document.createElement("a");
+        a.href = url;
+        a.download = "robes-theme-backup-" + new Date().toISOString().slice(0,10) + ".json";
+        a.click();
+        URL.revokeObjectURL(url);
+    });
+
+    /* ── 备份恢复 ── */
+    var importBtn = document.getElementById("robes-import");
+    var importFile = document.getElementById("robes-import-file");
+
+    importBtn.addEventListener("click", function() {
+        importFile.click();
+    });
+
+    importFile.addEventListener("change", function() {
+        var file = this.files[0];
+        if (!file) return;
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            try {
+                var data = JSON.parse(e.target.result);
+                if (typeof data !== "object" || data === null) {
+                    alert("备份文件格式错误");
+                    return;
+                }
+                var count = 0;
+                for (var name in data) {
+                    var el = form.querySelector('[name="' + name + '"]');
+                    if (!el) continue;
+                    if (el.type === "checkbox") {
+                        el.checked = data[name] === "1";
+                    } else {
+                        el.value = data[name];
+                    }
+                    count++;
+                }
+                alert("已恢复 " + count + " 项设置，请点击「保存设置」使其生效");
+                /* 触发 UI 刷新（颜色选择器、滑块等同步） */
+                form.querySelectorAll("input[type=color]").forEach(function(p) {
+                    var hex = p.parentNode.querySelector(".robes-color-hex");
+                    if (hex) { hex.value = p.value; hex.dispatchEvent(new Event("input")); }
+                });
+                form.querySelectorAll("input[type=range]").forEach(function(s) {
+                    s.dispatchEvent(new Event("input"));
+                });
+            } catch(_e) {
+                alert("备份文件解析失败，请确认文件格式");
+            }
+        };
+        reader.readAsText(file);
+        this.value = "";
+    });
+}
+
+document.addEventListener("DOMContentLoaded", initRobesConfig);
+</script>
