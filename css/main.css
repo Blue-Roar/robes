@@ -683,8 +683,10 @@ html.dark .post-card-simple:hover { box-shadow: var(--shadow-md); border-color: 
   to { opacity: 1; transform: translateY(0); }
 }
 
-.post-card, .friend-feed-card,
-.cmt-card, .cmt-item, .photo-item {
+/* 初始隐藏只在 JS 可用时生效（html.js 由 header.php 内联脚本加上）。
+   否则禁用/加载失败 JS 时，.cmt-item 会永远停在 opacity:0，整个评论区空白。 */
+html.js .post-card, html.js .friend-feed-card,
+html.js .cmt-card, html.js .cmt-item, html.js .photo-item {
   opacity: 0; transform: translateY(16px);
 }
 .post-card.card-visible, .friend-feed-card.card-visible,
@@ -1819,6 +1821,34 @@ html.dark .cmt-text pre { background: rgba(129,140,248,0.08); }
 }
 .cmt-empty i { font-size: 32px; display: block; margin-bottom: 10px; opacity: .4; }
 .cmt-empty p { font-size: 13px; }
+
+/* ── 评论分页（内核 pageNav 输出 <ol class="cmt-pagenav"><li><a>…） ── */
+.cmt-pagenav {
+  list-style: none; padding: 0; margin: 18px 0 0;
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: center;
+  gap: 6px;
+}
+.cmt-pagenav li { list-style: none; }
+.cmt-pagenav li > a,
+.cmt-pagenav li > span {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 30px; height: 30px; padding: 0 9px;
+  font-size: 12px; font-weight: 600; line-height: 1;
+  color: var(--text-light); text-decoration: none;
+  border: 1px solid var(--glass-border); border-radius: var(--radius-xs);
+  background: var(--glass-bg); transition: all .15s;
+}
+.cmt-pagenav li > a:hover {
+  color: var(--accent); border-color: var(--accent);
+  background: var(--accent-soft); text-decoration: none;
+}
+.cmt-pagenav li.current > a {
+  color: #fff; background: var(--accent); border-color: var(--accent);
+  cursor: default;
+}
+.cmt-pagenav li.prev > a,
+.cmt-pagenav li.next > a { color: var(--text); }
+.cmt-pagenav li > span { border-color: transparent; background: transparent; }
 
 /* ── 回复提示条 ── */
 .cmt-reply-bar {

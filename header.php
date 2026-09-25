@@ -9,6 +9,8 @@ if (!defined('__TYPECHO_ROOT_DIR__')) exit;
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<?php /* JS 可用标记：卡片淡入动画的初始 opacity:0 只挂在这个 class 下，避免 JS 失效时评论区空白 */ ?>
+<script>document.documentElement.className += ' js';</script>
 <title><?php $this->archiveTitle(' - ', '', ' - '); ?><?php $this->options->title(); ?></title>
 <meta name="description" content="<?php $this->options->description(); ?>">
 <meta name="theme-color" content="<?php echo themeOption('accentColor', '#6366F1'); ?>" media="(prefers-color-scheme: light)">

@@ -79,7 +79,7 @@ function threadedComments($comments, $options) {
     $isAdmin = $comments->authorId && $comments->authorId == $comments->ownerId;
     $isFriend = !$isAdmin && isFriend($comments->url);
 ?>
-<li id="li-<?php $comments->theId(); ?>" class="cmt-item<?php echo $isAdmin ? ' cmt-is-admin' : ''; ?><?php echo $comments->levels > 0 ? ' cmt-is-child' : ''; ?>">
+<li id="li-<?php $comments->theId(); ?>" class="cmt-item<?php echo $isAdmin ? ' cmt-is-admin' : ''; ?><?php echo $comments->parent > 0 ? ' cmt-is-child' : ''; ?>">
     <div class="cmt-card" id="<?php $comments->theId(); ?>">
         <div class="cmt-avatar-col">
             <img class="cmt-avatar" src="https://weavatar.com/avatar/<?php echo $hash; ?>?s=80&d=mp" alt="" loading="lazy">
@@ -107,9 +107,34 @@ function threadedComments($comments, $options) {
 </li>
 <?php } ?>
 
+<?php
+/**
+ * 标题里的评论总数：必须现场统计，不能再用 $this->commentsNum()。
+ * 那个方法读的是 contents.commentsNum 缓存列（var/Widget/Base/Contents.php:420），
+ * 它只按 status/cid 统计、不含 type 过滤，也可能因直接改库、导入数据、
+ * 插件批量审核而虚高 —— 于是出现"标题 30+ 条、列表只有几条"。
+ * 这里统计的是"真正会被列出来的评论数"。
+ */
+$cmtTotal = 0;
+try {
+    $cmtDb = \Typecho\Db::get();
+    $cmtQuery = $cmtDb->select(array('COUNT(coid)' => 'num'))
+        ->from('table.comments')
+        ->where('cid = ?', $this->cid)
+        ->where('status = ?', 'approved');
+    if ($this->options->commentsShowCommentOnly) {
+        $cmtQuery->where('type = ?', 'comment');
+    }
+    $cmtTotal = intval($cmtDb->fetchObject($cmtQuery)->num);
+} catch (Exception $e) {
+    $cmtTotal = intval($this->commentsNum);
+}
+?>
 <div class="cmt-section" id="comments">
     <div class="cmt-section-head">
-        <h3 class="cmt-title"><i class="fa-regular fa-comments"></i> <?php $this->commentsNum('暂无评论', '1条评论', '%d条评论'); ?></h3>
+        <h3 class="cmt-title"><i class="fa-regular fa-comments"></i> <?php
+            echo $cmtTotal > 0 ? $cmtTotal . '条评论' : '暂无评论';
+        ?></h3>
     </div>
 
     <?php if ($this->allow('comment')): ?>
@@ -153,9 +178,40 @@ function threadedComments($comments, $options) {
 
     <?php $this->comments()->to($comments); ?>
     <?php if ($comments->have()): ?>
-    <ol class="cmt-list">
-        <?php $comments->listComments(); ?>
-    </ol>
+        <?php
+        /**
+         * 用 before/after 把外层容器交给内核输出。
+         * 内核 listComments() 的默认 before 是 <ol class="comment-list">，主题外面再套一层
+         * <ol class="cmt-list"> 会变成 <ol> 直接嵌 <ol> 的非法结构，而且 .comment-list 没有样式，
+         * 子评论会带上浏览器默认的 40px 缩进和 1. 2. 3. 序号。
+         *
+         * 注意：这里的入参是 Config（before/after/beforeAuthor/...），不是 callback。
+         * 全局函数 threadedComments() 由内核 Widget\Comments\Archive::threadedCommentsCallback()
+         * 自动检测并调用（Archive.php:316 function_exists('threadedComments')），
+         * 传 'callback' => 'threadedComments' 是没有作用的。
+         */
+        $comments->listComments(array(
+            'before' => '<ol class="cmt-list">',
+            'after'  => '</ol>',
+        ));
+        ?>
+
+        <?php
+        /**
+         * 评论分页 —— 之前完全缺失，是"评论显示不全"的直接原因。
+         * 内核在后台开启"启用分页"（commentsPageBreak）后会按 commentsPageSize 切片
+         * （Widget/Comments/Archive.php:163-176），切掉的评论只有 pageNav() 能到达；
+         * 而 commentsPageDisplay 默认是 last（install.php:296），默认显示的是最后一页。
+         * 分页链接形如 /文章路径/comment-page-2#comments，未开启分页时此调用不输出任何内容。
+         */
+        $comments->pageNav(
+            '<i class="fa-solid fa-chevron-left"></i>',
+            '<i class="fa-solid fa-chevron-right"></i>',
+            3,
+            '…',
+            array('wrapClass' => 'cmt-pagenav')
+        );
+        ?>
     <?php else: ?>
     <div class="cmt-empty">
         <i class="fa-regular fa-message"></i>

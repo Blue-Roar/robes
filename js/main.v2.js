@@ -1101,7 +1101,16 @@ function rebindAll() {
                 if (push) history.pushState(null, '', url);
                 rebindAll();
                 var feed = document.getElementById('feed');
-                if (feed) feed.scrollTop = 0;
+                if (feed) {
+                    /* 评论分页链接带 #comments，PJAX 后要滚到评论区而不是回到顶部 */
+                    var cmt = url.indexOf('#comments') !== -1 ? document.getElementById('comments') : null;
+                    if (cmt) {
+                        feed.scrollTop = Math.max(0, cmt.getBoundingClientRect().top
+                            - feed.getBoundingClientRect().top + feed.scrollTop - 12);
+                    } else {
+                        feed.scrollTop = 0;
+                    }
+                }
             } else {
                 window.location.href = url;
             }
