@@ -57,7 +57,9 @@ if (!defined('__TYPECHO_ROOT_DIR__')) exit;
         <?php else: ?>
           <div class="brand-icon"><?php echo mb_substr($this->options->title, 0, 1); ?></div>
         <?php endif; ?>
-        <span class="brand-name"><?php echo themeOption('blogName', $this->options->title); ?></span>
+        <?php if (!themeOption('logoOnly', '1')): ?>
+          <span class="brand-name"><?php echo themeOption('blogName', $this->options->title); ?></span>
+        <?php endif; ?>
       </div>
       <div class="topbar-center">
         <i class="fa-solid fa-magnifying-glass"></i>
@@ -70,7 +72,9 @@ if (!defined('__TYPECHO_ROOT_DIR__')) exit;
         <?php else: ?>
           <div class="m-brand-icon"><?php echo mb_substr($this->options->title, 0, 1); ?></div>
         <?php endif; ?>
-        <span class="m-brand-name"><?php echo themeOption('blogName', $this->options->title); ?></span>
+        <?php if (!themeOption('logoOnly', '1')): ?>
+          <span class="m-brand-name"><?php echo themeOption('blogName', $this->options->title); ?></span>
+        <?php endif; ?>
       </div>
       <div class="topbar-spacer"></div>
       <div class="topbar-actions">

@@ -342,7 +342,7 @@
 <script>
 function initRobesConfig() {
     var groups = {
-        basic: ["blogName", "logoImage", "faviconUrl", "siteStartDate", "footerText", "icpText", "ogImage", "postAvatar"],
+        basic: ["blogName", "logoImage", "logoOnly", "faviconUrl", "siteStartDate", "footerText", "icpText", "ogImage", "postAvatar"],
         style: ["cardStyle", "darkMode", "accentColor", "bgColor", "orbColor", "orbSize", "bgSvgLight", "glassBlur", "glassOpacity", "borderRadius"],
         layout: ["topbarHeight", "sidebarWidth", "showSidebarCategories", "showSidebarTags", "enablePostNav"],
         feature: ["enablePJAX", "enableLightbox", "enableTOC", "enableHitokoto", "enableSortTabs", "showImageCount", "galleryCategoryId", "stickyPostIds", "showLinksCategory", "enableLinkCheck"],
@@ -353,6 +353,7 @@ function initRobesConfig() {
     var optionLabels = {
         blogName: "博客名称",
         logoImage: "Logo图片",
+        logoOnly: "仅显示Logo",
         footerText: "底部版权",
         icpText: "备案信息",
         faviconUrl: "Favicon",
@@ -399,6 +400,7 @@ function initRobesConfig() {
     var optionDescs = {
         blogName: "显示在顶栏左侧",
         logoImage: "填写图片URL，留空显示首字",
+        logoOnly: "开启后顶栏左侧仅显示Logo图片，不显示博客名称",
         footerText: "网站底部版权信息",
         icpText: "如：粤ICP备12345678号",
         faviconUrl: "填写图标URL，留空使用默认",

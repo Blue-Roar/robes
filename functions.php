@@ -8,6 +8,7 @@ if (!defined('__TYPECHO_ROOT_DIR__')) exit;
 function themeConfig($form) {
     $form->addInput(new \Typecho\Widget\Helper\Form\Element\Text('blogName', null, '', _t('博客名称'), _t('显示在顶栏左侧')));
     $form->addInput(new \Typecho\Widget\Helper\Form\Element\Text('logoImage', null, '', _t('Logo图片'), _t('填写图片URL，留空显示首字')));
+    $form->addInput(new \Typecho\Widget\Helper\Form\Element\Select('logoOnly', array('1' => '开启', '0' => '关闭'), '1', _t('顶栏左侧仅显示Logo图片，不显示博客名称')));
     $form->addInput(new \Typecho\Widget\Helper\Form\Element\Text('footerText', null, '', _t('底部版权')));
     $form->addInput(new \Typecho\Widget\Helper\Form\Element\Text('icpText', null, '', _t('备案信息'), _t('如：粤ICP备12345678号')));
     $form->addInput(new \Typecho\Widget\Helper\Form\Element\Text('accentColor', null, '#94c8d8', _t('强调色'), _t('如 #94c8d8')));

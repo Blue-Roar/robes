@@ -36,7 +36,7 @@ $lastUpdate = $lastPost ? date('Y-m-d', $lastPost['created']) : '暂无';
                     <div class="pg-card pg-profile-card">
                         <div class="pg-profile-top">
                             <div class="pg-profile-avatar">
-                                <?php $logoImg = themeOption('logoImage', ''); if ($logoImg): ?>
+                                <?php $logoImg = themeOption('postAvatar', '') ?? themeOption('logoImage', ''); if ($logoImg): ?>
                                     <img src="<?php echo $logoImg; ?>" alt="">
                                 <?php else: ?>
                                     <span><?php echo mb_substr($this->options->title, 0, 1); ?></span>

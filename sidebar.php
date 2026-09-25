@@ -91,7 +91,7 @@ if (!defined('__TYPECHO_ROOT_DIR__')) exit;
     <?php endif; ?>
 
     <div class="sidebar-footer">
-        <span><?php echo themeOption('footerText', '© 2026 ' . $this->options->title); ?></span>
+        <span><?php echo str_replace('{year}', date('Y'), themeOption('footerText', '&copy; {year} ' . $this->options->title)); ?></span>
         <?php $icp = themeOption('icpText', ''); if ($icp): ?>
         <div class="dot"></div>
         <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener noreferrer"><?php echo htmlspecialchars($icp); ?></a>
