@@ -1,11 +1,5 @@
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
-@font-face {
-  font-family: 'ZQL';
-  src: url('../fonts/zql-v3-subset.woff2') format('woff2');
-  font-display: block;
-}
-
 :root {
   --accent: #94c8d8;
   --accent-hover: #7ab8cc;
@@ -55,7 +49,7 @@ html {
 
 html, body {
   height: 100%; overflow: hidden;
-  font-family: 'ZQL', -apple-system, BlinkMacSystemFont, "SF Pro Display", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
   color: var(--text); font-size: 15px; line-height: 1.75;
   -webkit-font-smoothing: antialiased;
   background-color: var(--bg);
@@ -671,7 +665,7 @@ html.dark .post-card-simple:hover { box-shadow: var(--shadow-md); border-color: 
 }
 .pcs-meta-item { display: flex; align-items: center; gap: 4px; }
 .pcs-meta-item i { font-size: 11px; }
-
+.mb-0 { margin-bottom: 0 !important; }
 
 .post-card {
   background: var(--glass-bg);
