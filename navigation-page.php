@@ -1,9 +1,9 @@
 <?php
 /**
- * 导航页面模板
+ * 导航页面
  * @package custom
  * @type page
- * @title 导航
+ * @title 导航页面模板
  */
 if (!defined('__TYPECHO_ROOT_DIR__')) exit;
 $this->need('header.php');

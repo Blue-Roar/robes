@@ -1,9 +1,9 @@
 <?php
 /**
- * 简单无元信息无互动页面模板
+ * 简单页面
  * @package custom
  * @type page
- * @title 简单
+ * @title 简单无元信息无互动页面模板
  */
 if (!defined('__TYPECHO_ROOT_DIR__')) exit;
 $this->need('header.php');

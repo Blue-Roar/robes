@@ -14,7 +14,7 @@ if (!defined('__TYPECHO_ROOT_DIR__')) exit;
     <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener noreferrer"><?php echo htmlspecialchars($icp); ?></a>
     <?php endif; ?>
     <div class="dot"></div>
-    <span>Theme <a href="https://robes.xin/" target="_blank" rel="noopener noreferrer">Robes</a></span>
+    <span>Theme <a href="https://github.com/Blue-Roar/robes" target="_blank" rel="noopener noreferrer">Robes</a></span>
   </div>
 </div>
 </div>
