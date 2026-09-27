@@ -943,26 +943,45 @@ function _fallbackCheck(pending) {
   });
 }
 
-// ── Mermaid 重新渲染（PJAX + ESM 兼容） ──
+// ── Mermaid 按需加载 + 渲染（PJAX 兼容） ──
+var _mermaidLoading = null;   // Promise，防止重复加载
+var _mermaidReady = false;
+
+function _loadMermaid() {
+    if (_mermaidReady || (typeof mermaid !== 'undefined' && window.mermaid)) {
+        _mermaidReady = true;
+        return Promise.resolve();
+    }
+    if (_mermaidLoading) return _mermaidLoading;
+
+    _mermaidLoading = new Promise(function (resolve, reject) {
+        var s = document.createElement('script');
+        s.src = 'https://cdn.bootcdn.net/ajax/libs/mermaid/10.9.1/mermaid.min.js';
+        s.onload = function () {
+            if (window.mermaid) {
+                mermaid.initialize({
+                    startOnLoad: false,
+                    theme: (typeof ROBES !== 'undefined' && ROBES.mermaidTheme) ? ROBES.mermaidTheme : 'default'
+                });
+                _mermaidReady = true;
+                resolve();
+            } else {
+                reject(new Error('mermaid not found'));
+            }
+        };
+        s.onerror = reject;
+        document.head.appendChild(s);
+    });
+    return _mermaidLoading;
+}
+
 function renderMermaid() {
-    // 页面上没有 Mermaid 相关内容，直接跳过
+    // 页面上没有 Mermaid 相关内容，直接跳过，不加载脚本
     var hasMermaid = document.querySelector('.mermaid, .article-content pre code.language-mermaid, .article-content pre code.mermaid');
     if (!hasMermaid) return;
 
-    // 移除上一次 PJAX 插入的渲染脚本，避免堆积
-    var oldScript = document.getElementById('mermaid-pjax-renderer');
-    if (oldScript) oldScript.remove();
-
-    // 动态插入 ESM 模块脚本，让 Mermaid 自行扫描并渲染
-    var script = document.createElement('script');
-    script.id = 'mermaid-pjax-renderer';
-    script.type = 'module';
-    script.textContent = `
-        import mermaid from 'https://cdn.bootcdn.net/ajax/libs/mermaid/10.9.1/mermaid.esm.min.mjs';
-
-        mermaid.initialize({ startOnLoad: false, theme: 'dark' });
-
-        // 1. 转换还没处理的 pre code
+    _loadMermaid().then(function () {
+        // 转换 pre code -> div.mermaid
         document.querySelectorAll('.article-content pre code.language-mermaid, .article-content pre code.mermaid').forEach(function (code) {
             var pre = code.parentElement;
             if (pre && pre.tagName === 'PRE' && pre.dataset.mermaidDone !== '1') {
@@ -974,20 +993,20 @@ function renderMermaid() {
             }
         });
 
-        // 2. 只渲染没有 svg 的 .mermaid 元素
-        var blocks = Array.from(document.querySelectorAll('.mermaid')).filter(function (el) {
+        // 只渲染还没有 SVG 的 .mermaid
+        var pending = Array.from(document.querySelectorAll('.mermaid')).filter(function (el) {
             return !el.querySelector('svg');
         });
+        if (!pending.length) return;
 
-        if (blocks.length) {
-            try {
-                await mermaid.run({ nodes: blocks });
-            } catch (e) {
-                console.error('Mermaid render error:', e);
-            }
+        try {
+            mermaid.run({ nodes: pending });
+        } catch (e) {
+            if (typeof mermaid.init === 'function') mermaid.init(undefined, pending);
         }
-    `;
-    document.body.appendChild(script);
+    }).catch(function () {
+        // 加载失败，静默处理
+    });
 }
 
 // ── 代码高亮 ──

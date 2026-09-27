@@ -39,7 +39,8 @@ var ROBES = {
     enablePJAX: <?php echo themeOption("enablePJAX", "1") === "1" ? "true" : "false"; ?>,
     enableLinkCheck: <?php echo themeOption("enableLinkCheck", "1") === "1" ? "true" : "false"; ?>,
     darkMode: '<?php echo themeOption("darkMode", "auto"); ?>',
-    themeUrl: '<?php $this->options->themeUrl(); ?>'
+    themeUrl: '<?php $this->options->themeUrl(); ?>',
+    mermaidTheme: '<?php echo $this->options->plugin('MarkdownParse')->mermaid_theme ?: "default"; ?>'
 };
 </script>
 <script src="<?php $this->options->themeUrl('js/main.v2.js'); ?>" defer></script>
