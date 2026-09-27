@@ -956,7 +956,7 @@ function _loadMermaid() {
 
     _mermaidLoading = new Promise(function (resolve, reject) {
         var s = document.createElement('script');
-        s.src = 'https://cdn.bootcdn.net/ajax/libs/mermaid/10.9.1/mermaid.min.js';
+        s.src = 'https://s4.zstatic.net/ajax/libs/mermaid/10.9.1/mermaid.min.js';
         s.onload = function () {
             if (window.mermaid) {
                 mermaid.initialize({
@@ -1033,7 +1033,7 @@ function initCodeHighlight() {
 
     if (typeof hljs === 'undefined') {
         var script = document.createElement('script');
-        script.src = 'https://cdn.bootcdn.net/ajax/libs/highlight.js/11.9.0/highlight.min.js';
+        script.src = 'https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/highlight.min.js';
         script.onload = function () {
             toHl.forEach(function (block) { hljs.highlightElement(block); });
         };

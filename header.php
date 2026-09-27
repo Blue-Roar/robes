@@ -30,13 +30,13 @@ if (!defined('__TYPECHO_ROOT_DIR__')) exit;
 
 <?php /* 资源加载优化 */ ?>
 <link rel="dns-prefetch" href="//weavatar.com">
-<link rel="dns-prefetch" href="//cdn.bootcdn.net">
-<link rel="preconnect" href="https://cdn.bootcdn.net" crossorigin>
+<link rel="dns-prefetch" href="//s4.zstatic.net">
+<link rel="preconnect" href="https://s4.zstatic.net" crossorigin>
 <link rel="preload" href="<?php $this->options->themeUrl('css/main.css'); ?>" as="style">
 <link rel="preload" href="<?php $this->options->themeUrl('js/main.v2.js'); ?>" as="script">
-<link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.5.1/css/all.min.css" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.5.1/css/all.min.css" media="print" onload="this.media='all'">
 <?php if ($this->is('post') || $this->is('page')): ?>
-<link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.9.0/styles/github.min.css" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/github.min.css" media="print" onload="this.media='all'">
 <?php endif; ?>
 <link rel="stylesheet" href="<?php $this->options->themeUrl('css/main.css'); ?>">
 <?php themeCSSVars(); ?>
