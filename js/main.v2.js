@@ -1111,8 +1111,18 @@ function syncEditBtn() {
     else { btn.style.display = 'none'; }
 }
 
+// ── 外部链接补 target（配合 MarkdownParse 的 rel 标记） ──
+function initLinkTarget() {
+    var content = document.querySelector('.article-content');
+    if (!content) return;
+    content.querySelectorAll('a[rel~="noopener"]').forEach(function(a) {
+        if (a.target === '_blank') return;
+        a.setAttribute('target', '_blank');
+    });
+}
+
 function rebindAll() {
-    initTheme(); initSectionToggle(); initHitokoto(); bindLike(); bindIndexLike(); bindSidebarAutoClose(); bindSortTabs(); bindCommentForm(); bindArchiveTabs(); bindLightbox(); initCodeCopy(); initCodeHighlight(); initTableWrap(); initSearchHighlight(); initLinkCheck(); initWaterfall(); initTOC(); initLazyLoad(); initImgLoading(); bindLinksTabs(); syncEditBtn(); initScrollAutoHide(); renderMermaid();
+    initTheme(); initSectionToggle(); initHitokoto(); bindLike(); bindIndexLike(); bindSidebarAutoClose(); bindSortTabs(); bindCommentForm(); bindArchiveTabs(); bindLightbox(); initCodeCopy(); initCodeHighlight(); initTableWrap(); initSearchHighlight(); initLinkCheck(); initWaterfall(); initTOC(); initLazyLoad(); initImgLoading(); bindLinksTabs(); syncEditBtn(); initScrollAutoHide(); renderMermaid(); initLinkTarget();
     var tagsEl = document.getElementById('articleTags');
     if (tagsEl && !tagsEl.querySelector('a')) tagsEl.style.display = 'none';
     var se = document.getElementById('feed');
@@ -1138,7 +1148,7 @@ function rebindAll() {
     var sidebarCloseBtn = document.getElementById('sidebarCloseBtn');
     if (sidebarCloseBtn) sidebarCloseBtn.addEventListener('click', closeSidebar);
 
-    bindSidebarAutoClose(); bindSortTabs(); bindCommentForm(); bindArchiveTabs(); bindIndexLike(); bindLightbox(); initCodeCopy(); initCodeHighlight(); initTableWrap(); initLinkCheck(); initWaterfall(); initTOC(); bindLinksTabs(); syncEditBtn(); initImgLoading(); initScrollAutoHide(); renderMermaid();
+    bindSidebarAutoClose(); bindSortTabs(); bindCommentForm(); bindArchiveTabs(); bindIndexLike(); bindLightbox(); initCodeCopy(); initCodeHighlight(); initTableWrap(); initLinkCheck(); initWaterfall(); initTOC(); bindLinksTabs(); syncEditBtn(); initImgLoading(); initScrollAutoHide(); renderMermaid(); initLinkTarget();
     initTheme(); initSectionToggle(); initHitokoto();
     var tagsEl = document.getElementById('articleTags');
     if (tagsEl && !tagsEl.querySelector('a')) tagsEl.style.display = 'none';
