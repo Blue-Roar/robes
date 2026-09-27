@@ -46,6 +46,8 @@ function themeConfig($form) {
     $form->addInput(new \Typecho\Widget\Helper\Form\Element\Text('siteStartDate', null, '', _t('建站日期'), _t('格式：2024-01-01，运行时间自动计算')));
     $form->addInput(new \Typecho\Widget\Helper\Form\Element\Text('faviconUrl', null, '', _t('Favicon'), _t('填写图标URL，留空使用默认')));
     $form->addInput(new \Typecho\Widget\Helper\Form\Element\Text('ogImage', null, '', _t('默认分享图'), _t('无文章图片时使用的默认缩略图URL')));
+    $form->addInput(new \Typecho\Widget\Helper\Form\Element\Text('bgImage', null, '', _t('背景图片'), _t('填写背景图片URL，填写后会覆盖SVG背景')));
+    $form->addInput(new \Typecho\Widget\Helper\Form\Element\Text('bgImageDark', null, '', _t('暗色背景图片'), _t('暗色模式下的背景图片URL，留空使用浅色背景图片')));
 
     // 背景光晕
     $form->addInput(new \Typecho\Widget\Helper\Form\Element\Text('orbColor', null, '', _t('光晕颜色'), _t('如 #8B9CF7，留空使用默认')));
@@ -111,13 +113,22 @@ function themeCSSVars() {
     }
 
     // 自定义背景
-    $bgSvgLight = trim(themeOption('bgSvgLight', ''));
-    if ($bgSvgLight) {
-        if (stripos($bgSvgLight, 'gradient') !== false || stripos($bgSvgLight, 'repeating') !== false) {
-            echo "html,body{background-image:{$bgSvgLight}!important}\n";
-        } else {
-            $encoded = 'data:image/svg+xml,' . rawurlencode($bgSvgLight);
-            echo "html,body{background-image:url(\"{$encoded}\")!important;background-repeat:repeat!important;background-size:auto!important}\n";
+    $bgImage = trim(themeOption('bgImage', ''));
+    $bgImageDark = trim(themeOption('bgImageDark', ''));
+    if ($bgImage) {
+        echo "html body,html.dark body{background-image:url('" . htmlspecialchars($bgImage, ENT_QUOTES, 'UTF-8') . "');background-position:50%;background-repeat:no-repeat;background-size:cover;}\n";
+        if ($bgImageDark) {
+            echo "html.dark body{background-image:url('" . htmlspecialchars($bgImageDark, ENT_QUOTES, 'UTF-8') . "')!important}\n";
+        }
+    } else {
+        $bgSvgLight = trim(themeOption('bgSvgLight', ''));
+        if ($bgSvgLight) {
+            if (stripos($bgSvgLight, 'gradient') !== false || stripos($bgSvgLight, 'repeating') !== false) {
+                echo "html,body{background-image:{$bgSvgLight}!important}\n";
+            } else {
+                $encoded = 'data:image/svg+xml,' . rawurlencode($bgSvgLight);
+                echo "html,body{background-image:url(\"{$encoded}\")!important;background-repeat:repeat!important;background-size:auto!important}\n";
+            }
         }
     }
 

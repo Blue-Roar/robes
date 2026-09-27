@@ -343,7 +343,7 @@
 function initRobesConfig() {
     var groups = {
         basic: ["blogName", "logoImage", "logoOnly", "faviconUrl", "siteStartDate", "footerText", "icpText", "ogImage", "postAvatar"],
-        style: ["cardStyle", "darkMode", "accentColor", "bgColor", "orbColor", "orbSize", "bgSvgLight", "glassBlur", "glassOpacity", "borderRadius"],
+        style: ["cardStyle", "darkMode", "accentColor", "bgColor", "orbColor", "orbSize", "bgSvgLight", "bgImage", "bgImageDark", "glassBlur", "glassOpacity", "borderRadius"],
         layout: ["topbarHeight", "sidebarWidth", "showSidebarCategories", "showSidebarTags", "enablePostNav"],
         feature: ["enablePJAX", "enableLightbox", "enableTOC", "enableHitokoto", "enableSortTabs", "showImageCount", "galleryCategoryId", "stickyPostIds", "showLinksCategory", "enableLinkCheck"],
         social: ["socialGithub", "socialBilibili", "socialTwitter", "socialTelegram", "socialWeibo", "socialWechat", "socialEmail", "socialRss"],
@@ -391,6 +391,8 @@ function initRobesConfig() {
         customCSS: "自定义CSS",
         customJS: "自定义JS",
         bgSvgLight: "背景SVG",
+        bgImage: "背景图片",
+        bgImageDark: "暗色背景图片",
         orbColor: "光晕颜色",
         orbSize: "光晕大小",
         showLinksCategory: "友链分类",
@@ -438,6 +440,8 @@ function initRobesConfig() {
         customCSS: "自定义CSS样式代码",
         customJS: "自定义JavaScript代码",
         bgSvgLight: "粘贴SVG代码或CSS渐变，留空使用默认云朵背景",
+        bgImage: "填写背景图片URL，填写后会覆盖SVG背景",
+        bgImageDark: "暗色模式下的背景图片URL，留空使用浅色背景图片",
         orbColor: "如 #8B9CF7，三个光晕统一颜色，留空使用默认",
         orbSize: "单位px，默认400，建议200-600",
         showLinksCategory: "是否在友链页面显示分类筛选标签",
