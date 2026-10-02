@@ -146,6 +146,8 @@ try {
         </div>
         <div class="cmt-form" id="cmt-form-wrap">
             <form method="post" action="<?php $this->commentUrl(); ?>" id="comment-form">
+                <?php $cmtSecurity = \Widget\Security::alloc(); ?>
+                <input type="hidden" name="_" value="<?php echo htmlspecialchars($cmtSecurity->getToken(\Typecho\Request::getInstance()->getRequestUrl())); ?>" />
                 <input type="hidden" name="parent" id="comment-parent" value="" />
                 <?php if ($this->user->hasLogin()): ?>
                 <div class="cmt-logged">已登录为 <strong><?php $this->user->screenName(); ?></strong> <a href="<?php $this->options->logoutUrl(); ?>" class="no-pjax">退出</a></div>

@@ -6,7 +6,8 @@ function showToast(msg, type) {
     if (el) el.remove();
     var t = document.createElement('div');
     t.className = 'toast-notification toast-' + (type || 'success');
-    t.innerHTML = '<i class="fa-solid fa-' + (type === 'error' ? 'circle-exclamation' : 'circle-check') + '"></i><span>' + msg + '</span>';
+    t.innerHTML = '<i class="fa-solid fa-' + (type === 'error' ? 'circle-exclamation' : 'circle-check') + '"></i><span></span>';
+    t.querySelector('span').textContent = msg;
     document.body.appendChild(t);
     requestAnimationFrame(function() { t.classList.add('toast-show'); });
     setTimeout(function() { t.classList.remove('toast-show'); setTimeout(function() { t.remove(); }, 400); }, 2000);
@@ -294,6 +295,13 @@ function doCommentSubmit(form) {
     var text = ta ? ta.value.trim() : '';
     if (!text) { showToast('请输入评论内容', 'error'); return; }
 
+    /* 缺少 Typecho 安全 token（防垃圾校验用）时直接失败，避免被服务端静默丢弃后误报成功 */
+    var tokenEl = form.querySelector('input[name="_"]');
+    if (!tokenEl || !tokenEl.value) {
+        showToast('评论安全校验失败，请刷新页面后重试', 'error');
+        return;
+    }
+
     _commentSubmitting = true;
     var savedText = text;
     var btn = form.querySelector('#comment-submit');
@@ -333,22 +341,29 @@ function doCommentSubmit(form) {
         /* ── ③ HTML 响应 → 核心判断 ── */
         return response.text().then(function(html) {
             /*
-             * 关键判断：Typecho 成功时会 302 重定向到文章页。
-             * 浏览器跟随重定向后 response.url 会变成文章页 URL，
-             * 而 action 是评论接口 URL（如 /index.php/action/contents-comment）。
-             * 如果两者不同 → 说明 Typecho 走了 302 → 评论已成功写入。
+             * Typecho 成功时会 302 重定向到文章页，浏览器跟随重定向后 response.url 会变成文章页 URL，
+             * 而 action 是评论接口 URL（如 /index.php/action/contents-comment），两者不同。
+             * 但防垃圾校验失败时 goBack 同样 302 回来源页，所以重定向只能作为初步信号，
+             * 还需结合最终页面里的错误提示来判断。
              */
             var redirected = false;
             try {
                 var respUrl = response.url || '';
                 var actPath = _normalizeUrl(action);
                 var respPath = _normalizeUrl(respUrl);
-                redirected = respPath && actPath && respPath !== actPath;
+                redirected = response.redirected || (respPath && actPath && respPath !== actPath);
             } catch(_e) {}
 
             if (redirected) {
-                /* Typecho 302 了 → 评论已写入数据库 */
-                _commentSuccess(ta);
+                /* 302 既可能是提交成功跳回文章页，也可能是防垃圾校验失败 goBack 跳回来源页，
+                   先检查最终页面有无错误提示，再决定是否算成功 */
+                var redirectErr = _extractErrMsg(html);
+                if (redirectErr) {
+                    showToast(redirectErr, 'error');
+                    if (ta) ta.value = savedText;
+                } else {
+                    _commentSuccess(ta);
+                }
                 return;
             }
 
@@ -420,6 +435,13 @@ function _normalizeUrl(url) {
 function _extractErrMsg(html) {
     try {
         var doc = new DOMParser().parseFromString(html, 'text/html');
+
+        /* Typecho 反馈错误页：body 里只有 .container（不含文章/评论结构），其内容即错误信息 */
+        var containerEl = doc.querySelector('.container');
+        if (containerEl && !doc.querySelector('#comments, .main-body, article, .comment-list')) {
+            var containerText = containerEl.textContent.trim();
+            if (containerText) return containerText;
+        }
 
         /* Typecho 标准消息区域 */
         var msgEl = doc.querySelector('.typecho-message span')

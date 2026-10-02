@@ -18,6 +18,7 @@
 - 允许在侧栏隐藏站点标题，只显示Logo
 - 版权信息支持`{year}`动态年份
 - 修复分页评论显示异常
+- 修复评论防垃圾开启时评论被静默丢弃的问题
 - 修改代码高亮相关代码，以兼容[MarkdownParse](https://github.com/mrgeneralgoo/typecho-markdown)提供的 Mermaid 解析（注：在插件设置里，不要开启 Mermaid 支持，只需要插件解析 Mermaid 即可，后续渲染由主题侧 js 调用）
 - 给外部链接补上`target="blank"`标记（依赖 MarkdownParse 或同类型插件给外部链接添加的`rel="noopener noreferrer"`标记）
 - 使用 weavatar 替换各种不显示的 cravatar
